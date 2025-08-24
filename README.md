@@ -1,8 +1,8 @@
-# 🌦️ Examen de JavaScript para Desarrollo Web Frontend
+# 🌦️ Repaso de Examen de JavaScript para Desarrollo Web Frontend
 
 ## 📝 Introducción
 
-El objetivo de este examen es desarrollar una aplicación web de consulta de clima utilizando HTML, CSS y JavaScript. Este repositorio contiene los archivos `index.html`, `clima.html` y `datos.json`. Deberás crear los archivos JavaScript necesarios para dinamizar las páginas y cumplir con los requerimientos funcionales.
+El objetivo de este repaso de examen es desarrollar una aplicación web de consulta de clima utilizando HTML, CSS y JavaScript. Este repositorio contiene los archivos `index.html`, `clima.html` y `datos.json`. Deberás crear los archivos JavaScript necesarios para dinamizar las páginas y cumplir con los requerimientos funcionales.
 
 ## 📂 Archivos proporcionados
 
