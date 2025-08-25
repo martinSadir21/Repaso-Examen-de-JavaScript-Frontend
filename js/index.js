@@ -1,24 +1,53 @@
-// 1. Obtener referencia al formulario y al select de ciudades
+// Referencias
+const cityForm = document.getElementById("cityForm");
+const selectCity = document.getElementById("selectCity");
 
-// 2. Definir función para cargar dinámicamente las opciones de ciudades desde datos.json usando fetch
+// Cargar ciudades desde datos.json
 function cargarOpcionesCiudades() {
-    // Llamar al archivo usando fetch
-    fetch(/* Ruta al archivo json */)
-        .then(response => response.json())
-        .then(data => {
-            // Almacenar los datos en localStorage para usarlos en clima.html
-            // Iterar sobre las ciudades obtenidas y agregar opciones al select
-        })
-        .catch(error => {
-            console.error('Error al cargar las opciones de ciudades desde datos.json:', error);
-            // Manejar el error, por ejemplo, mostrar un mensaje al usuario
-        });
+  fetch("public/datos.json")
+    .then(res => {
+      if (!res.ok) throw new Error("Error al leer datos.json");
+      return res.json();
+    })
+    .then(data => {
+      const ciudades = data.ciudades || [];
+      // Guardar en localStorage
+      localStorage.setItem("datosClima", JSON.stringify(ciudades));
+
+      // Poblar el select
+      selectCity.innerHTML = '<option value="" disabled selected>Seleccioná una ciudad</option>';
+      ciudades.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c.nombre;
+        opt.textContent = c.nombre;
+        selectCity.appendChild(opt);
+      });
+    })
+    .catch(err => {
+      console.error("Error cargando ciudades:", err);
+      alert("No se pudieron cargar las ciudades. Asegurate de abrir con Live Server.");
+    });
 }
 
-// 3. Manejar evento de envío del formulario para redirigir a clima.html con la ciudad seleccionada
-cityForm.addEventListener('submit', function(event) {
-    // Prevenir el envío del formulario para manejarlo con JavaScript
-    // Redirigir a clima.html con la ciudad seleccionada como parámetro GET
+// Enviar formulario
+cityForm.addEventListener("submit", e => {
+  e.preventDefault();
+  const city = selectCity.value;
+  if (!city) {
+    alert("Seleccioná una ciudad");
+    return;
+  }
+  localStorage.setItem("ciudadSeleccionada", city);
+
+  // Actualizar historial
+  const historial = JSON.parse(localStorage.getItem("historial")) || [];
+  if (!historial.includes(city)) {
+    historial.push(city);
+    localStorage.setItem("historial", JSON.stringify(historial));
+  }
+
+  window.location.href = "clima.html";
 });
 
-// 4. Cargar las opciones de ciudades al cargar la página principal
+// Cargar ciudades al inicio
+document.addEventListener("DOMContentLoaded", cargarOpcionesCiudades);
